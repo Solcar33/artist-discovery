@@ -40,3 +40,15 @@
 - **Commande ou code clé :** `from history import load_history, get_top_artists`
 - **Ce que j'ai appris :** l'indentation définit le bloc en Python (`ImportError` si une fonction est mal indentée). Sur AZERTY, Shift+8 donne un 8 et pas un underscore (`NameError`). Une erreur se lit de bas en haut : la dernière ligne dit quoi, le fichier et la ligne disent où.
 - **Question restante :** comment Python sait-il où chercher les modules à importer ?
+### 2026-11-16 Étape 1.4 Passer à 50 artists et corriger un bug de chargement
+- **Ce que j'ai fait :** passer le top à 50 artistes. Constater que les chiffres avaient changé après le refactoring, retrouver un return man indenté dans load_history qui ne lisa le 1er fichier (10000 au lieu 12911 écoutes).
+- **Pourquoi :** les recommandations reposeront sur ces chiffres. Avec 50 artistes de départ le choix sera plus varié, et le 50e a encore 32 écoutes, donc un signal solide.
+- **Commande ou code clé :** `lenload_history())`
+- **Ce que j'ai appris :** après un refactoring, comparer la sortie avec celle d'avant. Un bug sillencieux (pas d'erreur, mais des chiffres faux) est plus dangereux qu'une erreur. Un return dans une boucle for arrête la boucle au premier tour. grep et sed -n 'X,Yp' pour inspecter un fichier.
+- **Question restante :** Comment écrire un test automatique qui vérifie que load_history renvoie bien toutes les écoutes ?
+
+## Reprise
+
+- **État :** phases 0 et 1 terminées (lecture de l'historique, top 50 artistes, code dans `src/history.py`).
+- **Prochaine étape :** 2.1, créer un compte Last.fm et obtenir une clé API, puis 2.2 la ranger dans `.env`.
+- **Rappels :** clé API jamais dans le code ni dans le chat. Venv à activer avec `source .venv/Scripts/activate`. Branche `master`.
