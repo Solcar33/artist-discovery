@@ -32,3 +32,10 @@
 - **Commande ou code clé :** `git push -u origin master`
 - **Ce que j'ai appris :** rien
 - **Question restante :** 
+
+### 2026-11-16 Étape explore et import de la db
+- **Ce que j'ai fait :** créer un top 10 artist
+- **Pourquoi :** pour pouvoir lancer les recherches de mon programme
+- **Commande ou code clé :** `touch src/top_artists.py    import json/ import collection/Counter import pathlib/path`
+- **Ce que j'ai appris :** json
+- **Question restante :** 
