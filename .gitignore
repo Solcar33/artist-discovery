@@ -1,0 +1,9 @@
+# Données personnelles : jamais sur GitHub
+data/
+
+# Secrets (clés API)
+.env
+
+# Environnement Python
+.venv/
+__pycache__/
