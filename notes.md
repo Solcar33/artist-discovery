@@ -25,3 +25,10 @@
 - **Ce que j'ai appris :** ajoute à la fin d'un fichier
 - **Question restante :** aucune
 
+
+### 2026-11-16 Étape dépot github
+- **Ce que j'ai fait :** push
+- **Pourquoi :** save le projet
+- **Commande ou code clé :** `git push -u origin master`
+- **Ce que j'ai appris :** rien
+- **Question restante :** 
