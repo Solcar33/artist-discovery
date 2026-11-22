@@ -91,5 +91,12 @@
 - **Ce que j'ai fait :** Créé  src/musicbrainz.py avec find_artist (recherche par nom) et get_artist_links (liens regroupés par type) Ajouté une reprise automatique quand le server répond 503
 - **Pourquoi :** La fiche doit contenir les liens de l'artiste (écoute, sites, bases de données). MusicBrainz les liste sans clé API, mais impose un User-Agent et une limite de 1 requête par seconde.
 - **Commande ou code clé :** `requests.get(url, params=params, headers=HEADERS, timeout=10)`
-- **Ce que j'ai appris :** Un 503 vient du servcer, pas de mon code. Le backoff exponentiel double l'attente à chaque échec. Les clés d'une API se copient exactement : resource et  pas ressource, artists et pas artist. La recherche renvoie le meilleur résultat : je vérifie le nom et le score. Une source peut être incomplète, donc la page affichera seulement les liens trouvés.
+- **Ce que j'ai appris :** Un 503 vient du server, pas de mon code. Le backoff exponentiel double l'attente à chaque échec. Les clés d'une API se copient exactement : resource et  pas ressource, artists et pas artist. La recherche renvoie le meilleur résultat : je vérifie le nom et le score. Une source peut être incomplète, donc la page affichera seulement les liens trouvés.
 - **Question restante :** Comment éviter de se tromper d'artiste en cas d'homonyme ?
+
+### 2026-11-22 Étape 3.3 Bio avec Wikidata et Wikipedia
+- **Ce que j'ai fait :** créé wikipedia.py : à partir de l'identifiant Wikidata, récupère le titre de la page Wikipedia (fr puis en) puis son résumé en texte brut.
+- **Pourquoi :** Une bio propre sans HTML, meilleure que celle de Last.fm. Wikidata relie les versions linguistiques d'un sujet et évite les homonymes. Le repli du français cers l'anglais couvre les artistes sans article français.
+- **Commande ou code clé :** `quote(titre, safe="")`
+- **Ce que j'ai appris :** Un 404 sur un identifiant valide vient souvent d'une url mal écrite : j'avais mis wikipedia.org au lieu de wikidata?org. Des print temporaires m'ont montré où ça cassait. Une SyntaxError arrive quand deux instructions sont collées sur une ligne. Une clé de dictionnaire s'écrit entre guillemets. Wikipedia et Wikidata sont deux sources différentes.
+- **Question restante :** Que faire quand l'artiste n'a aucun article Wikipedia ?
