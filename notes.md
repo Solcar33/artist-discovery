@@ -121,3 +121,10 @@
 - **Commande ou code clé :** `env.get_template("artist.html").render(fiche=fiche)`
 - **Ce que j'ai appris :** Jinja2 rempli les trous {{ }} d'un modèle avec des données. L'autoescape protège contre les caractères spéciaux. Path.stem donne le nom sans execution.
 - **Question restante :** Comment afficher les liens d'écoute et les genres dans la page ?
+
+### 2026-11-22 Étape 4.2 Page cmplète : chiffres, présentation, liens d'écoute
+- **Ce que j'ai fait :** Complété templates/artist.html avec les chiffres Last.fm, les genres, le résumé Wikipedia (repli sur la bio Last.fm) et les liens d'écoutes
+- **Pourquoi :** La page doit exploiter toute la fiche et rester correcte quand une source manque. Les conditions du modèle masquent les sections vides.
+- **Commande ou code clé :** `{% if fiche.wikipedia %}`
+- **Ce que j'ai appris :** Jinja2 a des conditions, des boucles et des filtres (join, default, striptags). Les liens venant d'une source externe se vérifient (startwith http) avant d'aller dans href. Un modèle bien écrit gère les données absentes.
+- **Question restante :** Comment afficher les réseaux sociaux quand MusicBrainz n'en a pas ?

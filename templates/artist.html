@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ fiche.nom }} · Artist Discovery</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ fiche.nom }} · Artist Discovery</title>
 </head>
 <body>
-    <H1>{{ fiche.nom }}</H1>
-    <p>Découverte de la semaine du {{ fiche.date }}</p>
-    <p>Parce que tu écoute {{ fiche.favoris | join(", ") }}</p>
-    
+  <h1>{{ fiche.nom }}</h1>
+  <p>Découverte de la semaine du {{ fiche.date }}</p>
+  <p>Parce que tu écoutes : {{ fiche.favoris | join(", ") }}</p>
+
+  {% if fiche.lastfm %}
+  <h2>En chiffres (Last.fm)</h2>
+  <ul>
+    <li>{{ "{:,}".format(fiche.lastfm.auditeurs).replace(",", " ") }} auditeurs</li>
+    <li>{{ "{:,}".format(fiche.lastfm.ecoutes).replace(",", " ") }} écoutes</li>
+  </ul>
+  <p>Genres : {{ fiche.lastfm.tags | join(", ") }}</p>
+  {% endif %}
+
+  <h2>Présentation</h2>
+  {% if fiche.wikipedia %}
+  <p>{{ fiche.wikipedia.texte }}</p>
+  <p><a href="{{ fiche.wikipedia.url }}">Lire la suite sur Wikipedia ({{ fiche.wikipedia.langue }})</a></p>
+  {% elif fiche.lastfm %}
+  <p>{{ fiche.lastfm.bio | striptags }}</p>
+  {% else %}
+  <p>Pas de présentation disponible cette semaine.</p>
+  {% endif %}
+
+  {% set ecoute = (fiche.liens["free streaming"] | default([])) + (fiche.liens["streaming"] | default([])) %}
+  {% if ecoute %}
+  <h2>Écouter</h2>
+  <ul>
+    {% for url in ecoute if url.startswith("http") %}
+    <li><a href="{{ url }}">{{ url.split("/")[2] }}</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
 </body>
 </html>
