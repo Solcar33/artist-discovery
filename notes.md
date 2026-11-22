@@ -100,3 +100,10 @@
 - **Commande ou code clé :** `quote(titre, safe="")`
 - **Ce que j'ai appris :** Un 404 sur un identifiant valide vient souvent d'une url mal écrite : j'avais mis wikipedia.org au lieu de wikidata?org. Des print temporaires m'ont montré où ça cassait. Une SyntaxError arrive quand deux instructions sont collées sur une ligne. Une clé de dictionnaire s'écrit entre guillemets. Wikipedia et Wikidata sont deux sources différentes.
 - **Question restante :** Que faire quand l'artiste n'a aucun article Wikipedia ?
+
+### 2026-11-22 Étape 3.4 Assembler la fiche de l'artiste
+- **Ce que j'ai fait :** Créé src/fiche.py : build_fiche réunit Last.fm, MusicBrainz et Wikipedia dans un dictionnaire, save_fiche l'enregistre en JSON dans content/. Une source en panne laisse un champ vide au lieu de planter.
+- **Pourquoi :** Le site lira un fichier JSON par semaine. Les sources peuvent tomber en panne ou être incomplète : la fiche doit se générer quand même.
+- **Commande ou code clé :** `json.dump(fiche, f, ensure_ascii=False, indent=2)`
+- **Ce que j'ai appris :** L'indentation décide de ce qui s'exécute : un return trop à droite dans un if renvoyait None, donc le fichier contenait null. Il faut ouvrir le résultat et pas seulement lire le message de succès. isoformat sans parenthèses stocke la fonction. py_compile vérifie la syntaxe sans exécuter. Ne jamais afficher le détail d'une erreur réseau :  il contient l'URL, donc la clé.
+- **Question restante :** Comment éviter de recommander deux fois le mê^me artiste d'une semaine à l'autre ?
