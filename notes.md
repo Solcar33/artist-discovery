@@ -49,6 +49,27 @@
 
 ## Reprise
 
-- **État :** phases 0 et 1 terminées (lecture de l'historique, top 50 artistes, code dans `src/history.py`).
-- **Prochaine étape :** 2.1, créer un compte Last.fm et obtenir une clé API, puis 2.2 la ranger dans `.env`.
-- **Rappels :** clé API jamais dans le code ni dans le chat. Venv à activer avec `source .venv/Scripts/activate`. Branche `master`.
+- **État :** phases 0, 1 et 2 terminées. L'historique Spotify est lu, le top 50 calculé (`src/history.py`), Last.fm est interrogé (`src/lastfm.py`) et les candidats sont classés (`src/recommand.py`).
+- **Prochaine étape :** 2.6, choisir l'artiste de la semaine par tirage au hasard pondéré parmi les meilleurs candidats, puis phase 3 (fiche de l'artiste : MusicBrainz, Wikipedia, Last.fm).
+- **Rappels :** clé API dans `.env`, jamais dans le code ni dans le chat. Venv à activer avec `source .venv/Scripts/activate`. Branche `master`. Vérifier les sorties après chaque modification.
+
+### 2026-11-22 Étape 2.1 à 2.3 : clé Last.fm, fichier .env et installation de requests
+- **Ce que j'ai fait :** créé une clé API Last.fm, l'ai rangée dans `.env`, vérifié qu'il est ignoré par Git, installé `requests` et `python-dotenv`, puis généré `requirements.txt`.
+- **Pourquoi :** appeler l'API Last.fm pour trouver des artistes proches des miens. La clé est un secret : elle ne doit jamais être dans le code, dans les notes ni sur GitHub.
+- **Commande ou code clé :** `git check-ignore -v .env`, `python -m pip install requests python-dotenv`, `python -m pip freeze > requirements.txt`
+- **Ce que j'ai appris :** `python -m pip` garantit d'utiliser le pip du venv. `requirements.txt` liste les dépendances pour recréer l'environnement. On vérifie qu'un secret est ignoré par Git avant de commiter. pip installe aussi les dépendances de `requests` tout seul.
+- **Question restante :** comment `python-dotenv` lit-il le fichier `.env` ?
+
+### 2026-11-22 Étape 2.4 : premier appel à l'API Last.fm
+- **Ce que j'ai fait :** écrit `src/lastfm.py` avec `get_similar_artists`, qui appelle `artist.getsimilar`. Testé avec Foo Fighters.
+- **Pourquoi :** obtenir des artistes proches des miens, base des recommandations. Une API répond en JSON, comme mon export Spotify.
+- **Commande ou code clé :** `requests.get(BASE_URL, params=params, timeout=10)`
+- **Ce que j'ai appris :** `load_dotenv` et `os.getenv` lisent la clé dans `.env`. Pas de `raise_for_status` car l'erreur afficherait l'URL avec ma clé. Un fichier enregistré au mauvais endroit laisse un fichier vide dans `src/`. Un soulignement rouge dans VS Code est un avertissement à lire avant de lancer.
+- **Question restante :** comment Last.fm calcule-t-il le score de similarité ?
+
+### 2026-11-22 Étape 2.5 : candidats à partir de mes 50 artistes
+- **Ce que j'ai fait :** écrit `src/recommand.py` : il appelle Last.fm pour chacun de mes 50 artistes, retire ceux que je connais déjà, cumule les scores pondérés par mes écoutes et affiche les 10 meilleurs candidats avec les favoris qui les ont fait remonter.
+- **Pourquoi :** un artiste proche de plusieurs de mes favoris est un meilleur candidat. Les favoris concernés serviront à expliquer pourquoi il est recommandé.
+- **Commande ou code clé :** `scores[candidat] += float(similaire["match"]) * nb`
+- **Ce que j'ai appris :** `defaultdict` évite de tester si une clé existe. `sorted` avec `key=lambda x: x[1]` trie sur le score. J'avais écrit `lambda x:[1]` : Python n'a signalé aucune erreur, mais toutes les clés étaient égales, donc l'ordre d'origine était gardé. Comparer des noms rate les alias (Bob Marley contre Bob Marley & The Wailers).
+- **Question restante :** comment identifier un même artiste sous plusieurs noms (MusicBrainz) ?
