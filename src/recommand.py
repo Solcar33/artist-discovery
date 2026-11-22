@@ -38,12 +38,13 @@ def get_candidates(nb_favoris=50, nb_similaires=20):
     return [(candidat, score, liens[candidat]) for candidat, score in classement]
 
 
-def pick_artist_of_the_week(candidats, pool=30):
-    """Tire un artiste parmi les `pool` meilleurs candidats.
+def pick_artist_of_the_week(candidats, pool=30, exclus=()):
+    """Tire un artiste parmi les `pool` meilleurs candidats non exclus.
     Le tirage dépend de la semaine : relancer donne le même résultat."""
+    disponibles = [c for c in candidats if c[0].lower() not in exclus]
     annee, semaine, _ = date.today().isocalendar()
     hasard = random.Random(f"{annee}-W{semaine}")
-    return hasard.choice(candidats[:pool])
+    return hasard.choice(disponibles[:pool])
 
 
 if __name__ == "__main__":

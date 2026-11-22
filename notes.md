@@ -107,3 +107,10 @@
 - **Commande ou code clé :** `json.dump(fiche, f, ensure_ascii=False, indent=2)`
 - **Ce que j'ai appris :** L'indentation décide de ce qui s'exécute : un return trop à droite dans un if renvoyait None, donc le fichier contenait null. Il faut ouvrir le résultat et pas seulement lire le message de succès. isoformat sans parenthèses stocke la fonction. py_compile vérifie la syntaxe sans exécuter. Ne jamais afficher le détail d'une erreur réseau :  il contient l'URL, donc la clé.
 - **Question restante :** Comment éviter de recommander deux fois le mê^me artiste d'une semaine à l'autre ?
+
+### 2026-11-22 Étape 3.5 Ne pas recommander deux fois le même artiste
+- **Ce que j'ai fait :** Ajouté get_past_artists dans fiche.py, qui lit les fiches des semaines précédentes, et un paramètre exclus dans pick_artist_of_the_week.
+- **Pourquoi :** Le site se met à jour chaque semaine : sans mémoire, le même artiste pourrait revenir. On exclut les semaines passées mais pas la semaine en cours, pour qu'une relance donne le même résultat.
+- **Commande ou code clé :** `[c for candidats if C[0].lower() not in exclus]`
+- **Ce que j'ai appris :** glob liste les fichiers d'un dossier, continue saute un tour de boucle. Une fonction utilitaire évite de dupliquer le nom de fichier. Tester avec un faux fichier de la semaine précédente, puis le supprimer.
+- **Question restante :** Comment mon programme saura-t-il quels artistes ont déjà été publiés quand il tournera sur GitHub Actions ?

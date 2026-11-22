@@ -54,11 +54,26 @@ def build_fiche(nom, favoris):
     return fiche
 
 
+def _fichier_semaine():
+    """Nom du fichier de la semaine en cours, par exemple 2026-W47.json"""
+    annee, semaine, _ = date.today().isocalendar()
+    return f"{annee}-W{semaine:02d}.json"
+
+
+def get_past_artists():
+    deja_vus = set()
+    for chemin in CONTENT_DIR.glob("*.json"):
+        if chemin.name.lower() == _fichier_semaine().lower():
+            continue  # la semaine en cours n'est pas exclue d'elle-même
+        with open(chemin, encoding="utf-8") as f:
+            deja_vus.add(json.load(f)["nom"].lower())
+    return deja_vus
+
+
 def save_fiche(fiche):
     """Enregistre la fiche dans content/ sous le nom AAAA-Wss.json."""
     CONTENT_DIR.mkdir(exist_ok=True)
-    annee, semaine, _ = date.today().isocalendar()
-    chemin = CONTENT_DIR / f"{annee}-W{semaine:02d}.json"
+    chemin = CONTENT_DIR / _fichier_semaine()
     with open(chemin, "w", encoding="utf-8") as f:
         json.dump(fiche, f, ensure_ascii=False, indent=2)
     return chemin
@@ -66,6 +81,6 @@ def save_fiche(fiche):
 
 if __name__ == "__main__":
     candidats = get_candidates()
-    nom, score, favoris = pick_artist_of_the_week(candidats)
+    nom, score, favoris = pick_artist_of_the_week(candidats, exclus=get_past_artists())
     fiche = build_fiche(nom, favoris)
     print("Fiche enregistrée :", save_fiche(fiche))
