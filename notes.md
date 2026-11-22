@@ -170,3 +170,10 @@
 - **Commande ou code clé :** `base64.b64encode(gzip.compress(brut)).decode("ascii")`
 - **Ce que j'ai appris :** Un secret GitHub est limité à 48000 caractères, donc on compresse. os.getenv lit une variable d'environnement, ce qui permet au même code de tourner en local et dans le cloud. Ne pas nommer un fichier comme un module standard (profile). L profil est un instantané.
 - **Question restante :** Comment GitHub Actions lance-t-il le programme chaque semaine ?
+
+### 2026-11-22 Étape 5.5 Workflow GitHub Actions hebdomadaire
+- **Ce que j'ai fait :** Créé .github/workflows/weekly.yml : chaque lundi, il installe python et mes dépendances, génère la semaine avec mes deux secrets, construit le site et enregistre les changements.
+- **Pourquoi :** Automatiser sans que mon pc soit allumé, et sans que mon historique ou ma clé soient visiblent : ils sont dans des secrets.
+- **Commande ou code clé :** `git diff --cached --quiet || git commit -m "chore..."`
+- **Ce que j'ai appris :** cron s'est écrit en UTC. Un workflow reçoit les secrets par des variables d'environnement. L'indentation du YAML compte. Un commit de robit ne se fait que s'il y a des changements.
+- **Question restante :** Comment publier le site (GitHub Pages) et être prévenu ?
