@@ -79,3 +79,10 @@
 - **Commande ou code clé :** `random.Random(f"{annee}-W{semaine}").choice(candidats[:pool])`
 - **Ce que j'ai appris :** Une graine rend le hasard reproductible. isocalendat donne année, semaine et jour. le | fusionne duex ensembles. Une fonction qui renvoie ses données est plus réutilisable qu'une qui les affiche.
 - **Question restante :** Comment éviter de retomber sur un artiste déjà recommandé les semaines précédentes
+
+### 2026-11-22 Étape 3.1 Infos d'un artiste via last.fm
+- **Ce que j'ai fait :** Factorisé src/lastfm.py avec une fonction interne _appeler, puis ajouté get_artist_info (auditeurs, écoutes, genres, bio, mbid).
+- **Pourquoi :** Remplir la fiche de l'artiste. Factoriser évite de recopier les mêmes vérifications pour chaque méthode de l'API.
+- **Commande ou code clé :** `_appeler("artist.getinfo", artist=artiste, autocorrect=1)`
+- **Ce que j'ai appris :** **params collect les paramètres nommés, ** les déverse dans un dictionnaire. dict.get évite une KeyError si la clé manque. Après un refactoring, je relance recommand.py pour vérifier que le résultat n'a pas changé. Les auditeurs Last.fm ne sont que les auditeurss mensuel de Spotify.
+- **Question restante :** Comment nettoyer le HTML de la bio ?
