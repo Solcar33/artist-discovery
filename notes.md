@@ -73,3 +73,9 @@
 - **Commande ou code clé :** `scores[candidat] += float(similaire["match"]) * nb`
 - **Ce que j'ai appris :** `defaultdict` évite de tester si une clé existe. `sorted` avec `key=lambda x: x[1]` trie sur le score. J'avais écrit `lambda x:[1]` : Python n'a signalé aucune erreur, mais toutes les clés étaient égales, donc l'ordre d'origine était gardé. Comparer des noms rate les alias (Bob Marley contre Bob Marley & The Wailers).
 - **Question restante :** comment identifier un même artiste sous plusieurs noms (MusicBrainz) ?
+### 2026-11-22 Étape 2.6 Choisir l'artiste de la semaine
+- **Ce que j'ai fait :** réorganiser recommand.py en fonctions get_candidates et pick_artist_of_the_week. Le tirage est fixé par la semaine ISO. Ajouté une liste A_IGNORER pour les alias connus.
+- **Pourquoi :** Une execution automatique chaque semaine doit pouvoir êtree relancée sans changer d'artiste. Un tirage dans les 30 meilleurs laisse sa chance aux artistes moins connus.
+- **Commande ou code clé :** `random.Random(f"{annee}-W{semaine}").choice(candidats[:pool])`
+- **Ce que j'ai appris :** Une graine rend le hasard reproductible. isocalendat donne année, semaine et jour. le | fusionne duex ensembles. Une fonction qui renvoie ses données est plus réutilisable qu'une qui les affiche.
+- **Question restante :** Comment éviter de retomber sur un artiste déjà recommandé les semaines précédentes
