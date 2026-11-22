@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Semaine {{ semaine.slug }} · Artist Discovery</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <p><a href="../index.html">← Toutes les découvertes</a></p>
+  <h1>Semaine {{ semaine.slug }}</h1>
+  <p class="muted">Publiée le {{ semaine.date }}</p>
+
+  {% for fiche in semaine.decouvertes %}
+  {% include "_artiste.html" %}
+  {% endfor %}
+</body>
+</html>

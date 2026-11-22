@@ -156,3 +156,10 @@
 - **Commande ou code clé :** `data.get("decouverte", [data])`
 - **Ce que j'ai appris :** Un changement de format de données doit rester lisible pour l'ancien. get avec une valeur par défaut gère les cas abseb=nts. Une compréhension de liste peut déballer des trios. Un album Last.fm peut être vide (null), il faut le filtrer.
 - **Question restante :** Comment adapter les pages du site à une semaine contenant trois artistes ?
+
+### 2026-11-22 Étape 5.3 Pages du site pour trois artistes par semaine
+- **Ce que j'ai fait :** créé semaine.html et le fragment _artiste.html (include dans une bouvcle), adapté index.html et build_site.py au nouveau format. Les anciens fichiers restent lisibles.
+- **Pourquoi :** Une page par semaine présente les trois découvertes. Un fragment réutilisable évite de recopier le bloc d'un artiste.
+- **Commande ou code clé :** `{% include "_artiste.html" %}`
+- **Ce que j'ai appris :** Un include voit les variables de la boucle autour. map(attribute=...) extrait un champ d'une liste. Un slug vient du nom de fichier. Gérer l'ancien format évite de casser l'existant.
+- **Question restante :** Comment faire tourner tou ça automatiquement chaque semaine sur GitHub ?

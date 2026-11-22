@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artist Discovery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Artist Discovery</h1>
+  <p>Un nouvel artiste à découvrir chaque semaine.</p>
+
+  {% if semaines %}
+  <ul>
+    {% for semaine in semaines %}
+    <li>
+      <a href="semaines/{{ semaine.slug }}.html">Semaine {{ semaine.slug }}</a><br>
+      <small>{{ semaine.decouvertes | map(attribute="nom") | join(", ") }}</small>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>Aucune découverte pour l'instant.</p>
+  {% endif %}
+</body>
+</html>
