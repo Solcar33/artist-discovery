@@ -47,12 +47,6 @@
 - **Ce que j'ai appris :** après un refactoring, comparer la sortie avec celle d'avant. Un bug sillencieux (pas d'erreur, mais des chiffres faux) est plus dangereux qu'une erreur. Un return dans une boucle for arrête la boucle au premier tour. grep et sed -n 'X,Yp' pour inspecter un fichier.
 - **Question restante :** Comment écrire un test automatique qui vérifie que load_history renvoie bien toutes les écoutes ?
 
-## Reprise
-
-- **État :** phases 0 à 5 terminées. Le site est en ligne sur https://solcar33.github.io/artist-discovery/ et un workflow GitHub Actions génère trois artistes chaque lundi (6 h 17 UTC) à partir d'un profil stocké dans deux secrets (LASTFM_API_KEY, SPOTIFY_PROFILE_B64).
-- **Prochaines étapes :** vérifier la mise à jour du site après le premier lancement automatique (lundi 23 novembre), écrire le README, ajouter un rappel hebdomadaire, puis phase 6 (IA) après le 7 décembre.
-- **Rappels :** le profil est un instantané de mes écoutes (à ré-exporter tous les quelques mois). Un workflow vert ne prouve pas que le résultat est bon : toujours vérifier le contenu. Branche `master`, adresse de commit noreply.
-
 ### 2026-11-22 Étape 2.1 à 2.3 : clé Last.fm, fichier .env et installation de requests
 - **Ce que j'ai fait :** créé une clé API Last.fm, l'ai rangée dans `.env`, vérifié qu'il est ignoré par Git, installé `requests` et `python-dotenv`, puis généré `requirements.txt`.
 - **Pourquoi :** appeler l'API Last.fm pour trouver des artistes proches des miens. La clé est un secret : elle ne doit jamais être dans le code, dans les notes ni sur GitHub.
@@ -184,3 +178,11 @@
 - **Commande ou code clé :** `git config --global user.email "ID+Solcar33@users.noreply.github.com"`
 - **Ce que j'ai appris :** Chaque commit contient l'adresse e-mail de son auteur, visible dans un dépôt public. Les chemins relatifs permettent au site de fonctionner dans un sous-dossier. Un guillemet non fermé laisse le terminal en attente (prompt >) Un push de robot ne déclenche pas toujours Pages.
 - **Question restante :** Le site se met-il à jour tout seul après le commit du robot ?
+
+## Reprise
+
+- **État :** phases 0 à 5.7 terminées. Le site est en ligne (https://solcar33.github.io/artist-discovery/). Un workflow GitHub Actions génère trois artistes chaque lundi à 6 h 17 UTC à partir d'un profil stocké dans deux secrets (LASTFM_API_KEY, SPOTIFY_PROFILE_B64). Le README est écrit. Les commits utilisent l'adresse noreply.
+- **Prochaine étape : 5.8**, l'annonce hebdomadaire par une issue GitHub (src/announce.py, étape ajoutée à .github/workflows/weekly.yml, test en lancement manuel avec la case « annoncer »).
+- **À vérifier lundi 23 novembre après 8 h (Paris) :** le site affiche bien la semaine 2026-W48 après le commit du robot. Sinon, ajouter un déploiement explicite de Pages dans le workflow.
+- **Ensuite :** maintenance (versions des actions GitHub), crédits Wikipedia en bas des pages, puis phase 6 (IA) après le 7 décembre.
+- **Rappels :** un workflow vert ne prouve pas que le résultat est bon : toujours vérifier le contenu. Le profil est un instantané de mes écoutes (à ré-exporter tous les quelques mois). Branche `master`. Ne jamais coller de clé ou de profil dans un chat, une note ou un commit.
