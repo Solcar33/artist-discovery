@@ -47,8 +47,34 @@ def pick_artist_of_the_week(candidats, pool=30, exclus=()):
     return hasard.choice(disponibles[:pool])
 
 
+def pick_artists_of_the_week(candidats, nb=3, pool=30, exclus=()):
+    """Tire `nb` artistes parmi les `pool` meilleurs candidats non exclus.
+    On cherche des artistes liés à des favoris différents, pour varier les styles.
+    Le tirage dépend de la semaine : relancer donne le même résultat."""
+    disponibles = [c for c in candidats if c[0].lower() not in exclus][:pool]
+    annee, semaine, _ = date.today().isocalendar()
+    hasard = random.Random(f"{annee}-W{semaine}")
+    hasard.shuffle(disponibles)
+
+    choisis = []
+    favoris_utilises = set()
+    for candidat in disponibles:
+        if len(choisis) == nb:
+            break
+        if favoris_utilises & set(candidat[2]):
+            continue  # trop proche d'un artiste déjà choisi
+        choisis.append(candidat)
+        favoris_utilises |= set(candidat[2])
+
+    for candidat in disponibles:  # complète s'il manque des artistes
+        if len(choisis) == nb:
+            break
+        if candidat not in choisis:
+            choisis.append(candidat)
+    return choisis
+
+
 if __name__ == "__main__":
     candidats = get_candidates()
-    nom, score, favoris = pick_artist_of_the_week(candidats)
-    print(f"Artiste de la semaine : {nom}")
-    print(f"Proche de : {', '.join(favoris)}")
+    for nom, score, favoris in pick_artists_of_the_week(candidats):
+        print(f"{nom}  <-  {', '.join(favoris[:3])}")

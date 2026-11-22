@@ -128,3 +128,24 @@
 - **Commande ou code clé :** `{% if fiche.wikipedia %}`
 - **Ce que j'ai appris :** Jinja2 a des conditions, des boucles et des filtres (join, default, striptags). Les liens venant d'une source externe se vérifient (startwith http) avant d'aller dans href. Un modèle bien écrit gère les données absentes.
 - **Question restante :** Comment afficher les réseaux sociaux quand MusicBrainz n'en a pas ?
+
+### 2026-11-22 Étape 4.3 Page d'accueil avec la liste des semaines
+- **Ce que j'ai fait :** Ajouté templates/index.html et restructuré build_site.py en load_fiches, build_artist_page et build index. Un lien de retour sur chaque page d'artiste.
+- **Pourquoi :** Le blog a besoin d'un point d'entrée qui liste toutes les découvertes. Charger toutes les fiches d'abord permet de générer l'accueil et les pages.
+- **Commande ou code clé :** `sorted(CONTENT_DIR.glob("*.json"), reverse=True)`
+- **Ce que j'ai appris :** Les noms de fichiers sur deux chiffres (W07) se trient dans l'ordre chronologique. Les liens relatifs dépendent du dossier de la page (..index.html). Découper en petites fonctions simplifie la suite.
+- **Question restante :** Que se passe-t-il pour une page si je supprime sa fiche JSON ?
+
+### 2026-11-22 Étape 4.4 Style de la page (CSS)
+- **Ce que j'ai fait :** Créé static/style.css avec des variables de couleur et un mode sombre automatique, relié aux deux modèles, copié dans docs par build_site.py
+- **Pourquoi :** Rendre la page lisible. static/ contient les sources et docs/ est le résultat généré : on ne modofie jamais docs/ à la main.
+- **Commande ou code clé :** `shutil.copy(fichier, SITE_DIR / fichier.name)`
+- **Ce que j'ai appris :** Les variables CSS centralisent les couleurs. prefers-color-scheme gère le mode sombre. max-width rend le texte lisible. Les chemins relatifs du CSS dépendent du dossier de la page.
+- **Question restante :** Comment rendre les liens d'écoute plus parlant que le nom de domaine ?
+
+### 2026-11-22 Étape 5.1 Tirer 3 artistes variés par semaine
+- **Ce que j'ai fait :** Ajouté pick_artists_of_the_week dans recomand.py : mélange les meilleurs candidats avec la graine de la semaine et évite de prendre deux artistes liés aux même favoris.
+- **Pourquoi :** Un seul artiste par semaine est léger. Choisir des artistes liés à des favoris différents donne des styles variés. Le tirage reste fixé par la semaine.
+- **Commande ou code clé :** `favoris_utilises & set(candidat[2])`
+- **Ce que j'ai appris :** & donne l'intersection de deux ensembles, |= ajoute à un ensemble. shuffle avec une graine reste reproductible. Une deuxième boucle sert de filet de sécurité si les contraintes sont trop strictes.
+- **Question restante :** Comment obtenir un album pour chaque artiste avec Last.fm ?
