@@ -163,3 +163,10 @@
 - **Commande ou code clé :** `{% include "_artiste.html" %}`
 - **Ce que j'ai appris :** Un include voit les variables de la boucle autour. map(attribute=...) extrait un champ d'une liste. Un slug vient du nom de fichier. Gérer l'ancien format évite de casser l'existant.
 - **Question restante :** Comment faire tourner tou ça automatiquement chaque semaine sur GitHub ?
+
+### 2026-11-22 Étape 5.4 Profil d'écoute pour le cloud et secrets GitHub
+- **Ce que j'ai fait :** Créé src/profil.py qui résume mon historique (top 50 et artistes connus), le compresse en base64 et le lit depuis une variable d'environnement. recommand.py utilise ce rpofil. Créé deux secrets GitHub.
+- **Pourquoi :** Le cloud n'a pas mon historique, volontairement ignoré par Git. Un secret chiffré permet de lui donner un résumé sans l'exposer, même avec un dépôt public.
+- **Commande ou code clé :** `base64.b64encode(gzip.compress(brut)).decode("ascii")`
+- **Ce que j'ai appris :** Un secret GitHub est limité à 48000 caractères, donc on compresse. os.getenv lit une variable d'environnement, ce qui permet au même code de tourner en local et dans le cloud. Ne pas nommer un fichier comme un module standard (profile). L profil est un instantané.
+- **Question restante :** Comment GitHub Actions lance-t-il le programme chaque semaine ?

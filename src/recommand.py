@@ -3,7 +3,7 @@ import time
 from collections import defaultdict
 from datetime import date
 
-from history import load_history, get_top_artists, get_known_artists
+from profil import get_profile
 from lastfm import get_similar_artists
 
 # Alias de groupes déjà connus, en attendant MusicBrainz (en minuscules)
@@ -12,13 +12,13 @@ A_IGNORER = {"bob marley", "dub incorporation"}
 
 def get_candidates(nb_favoris=50, nb_similaires=20):
     """Classe les artistes à découvrir à partir de mes favoris."""
-    ecoutes = load_history()
-    connus = {nom.lower() for nom in get_known_artists(ecoutes)} | A_IGNORER
+    profil = get_profile()
+    connus = {nom.lower() for nom in profil["connus"]} | A_IGNORER
 
     scores = defaultdict(float)
     liens = defaultdict(list)
 
-    for nom, nb in get_top_artists(ecoutes, nb_favoris):
+    for nom, nb in profil["top"][:nb_favoris]:
         try:
             similaires = get_similar_artists(nom, nb_similaires)
         except RuntimeError as erreur:
