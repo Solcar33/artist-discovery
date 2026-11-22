@@ -92,6 +92,8 @@ def save_week(semaine):
 if __name__ == "__main__":
     candidats = get_candidates()
     choisis = pick_artists_of_the_week(candidats, exclus=get_past_artists())
+    if not choisis:
+        raise SystemExit("Aucune découverte générée : vérifie les secrets et les sources")
     fiches = [build_fiche(nom, favoris) for nom, score, favoris in choisis]
     semaine = {
         "semaine": _id_semaine(),

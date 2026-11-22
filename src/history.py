@@ -12,6 +12,11 @@ def load_history():
     for fichier in sorted(DATA_DIR.glob("StreamingHistory_music_*.json")):
         with open(fichier, encoding="utf-8") as f:
             ecoutes.extend(json.load(f))
+    if not ecoutes:
+        raise RuntimeError(
+            f"Aucun historique trouvé dans {DATA_DIR}. "
+            "Dans le cloud, vérifie le secret SPOTIFY_PROFILE_B64."
+        )
     return ecoutes
 
 
