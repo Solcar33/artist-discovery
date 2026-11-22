@@ -49,9 +49,9 @@
 
 ## Reprise
 
-- **État :** phases 0, 1 et 2 terminées. L'historique Spotify est lu, le top 50 calculé (`src/history.py`), Last.fm est interrogé (`src/lastfm.py`) et les candidats sont classés (`src/recommand.py`).
-- **Prochaine étape :** 2.6, choisir l'artiste de la semaine par tirage au hasard pondéré parmi les meilleurs candidats, puis phase 3 (fiche de l'artiste : MusicBrainz, Wikipedia, Last.fm).
-- **Rappels :** clé API dans `.env`, jamais dans le code ni dans le chat. Venv à activer avec `source .venv/Scripts/activate`. Branche `master`. Vérifier les sorties après chaque modification.
+- **État :** phases 0 à 5 terminées. Le site est en ligne sur https://solcar33.github.io/artist-discovery/ et un workflow GitHub Actions génère trois artistes chaque lundi (6 h 17 UTC) à partir d'un profil stocké dans deux secrets (LASTFM_API_KEY, SPOTIFY_PROFILE_B64).
+- **Prochaines étapes :** vérifier la mise à jour du site après le premier lancement automatique (lundi 23 novembre), écrire le README, ajouter un rappel hebdomadaire, puis phase 6 (IA) après le 7 décembre.
+- **Rappels :** le profil est un instantané de mes écoutes (à ré-exporter tous les quelques mois). Un workflow vert ne prouve pas que le résultat est bon : toujours vérifier le contenu. Branche `master`, adresse de commit noreply.
 
 ### 2026-11-22 Étape 2.1 à 2.3 : clé Last.fm, fichier .env et installation de requests
 - **Ce que j'ai fait :** créé une clé API Last.fm, l'ai rangée dans `.env`, vérifié qu'il est ignoré par Git, installé `requests` et `python-dotenv`, puis généré `requirements.txt`.
