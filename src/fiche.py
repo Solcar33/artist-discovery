@@ -4,9 +4,9 @@ from pathlib import Path
 
 import requests
 
-from lastfm import get_artist_info
+from lastfm import get_artist_info, get_top_album
 from musicbrainz import find_artist, get_artist_links
-from recommand import get_candidates, pick_artist_of_the_week
+from recommand import get_candidates, pick_artists_of_the_week
 from wikipedia import get_wikipedia_summary
 
 CONTENT_DIR = Path("content")
@@ -26,10 +26,11 @@ def _essayer(source, fonction, *args):
 
 def build_fiche(nom, favoris):
     """Assemble la fiche d'un artiste à partir de toutes les sources."""
-    fiche = {"nom": nom, "favoris": favoris, "date": date.today().isoformat()}
+    fiche = {"nom": nom, "favoris": favoris}
 
     info = _essayer("Last.fm", get_artist_info, nom)
     fiche["lastfm"] = info
+    fiche["album"] = _essayer("Last.fm (album)", get_top_album, nom)
 
     mbid = info["mbid"] if info else ""
     if not mbid:
@@ -54,33 +55,47 @@ def build_fiche(nom, favoris):
     return fiche
 
 
-def _fichier_semaine():
-    """Nom du fichier de la semaine en cours, par exemple 2026-W47.json"""
+def _id_semaine():
+    """Identifiant de la semaine en cours, par exemple 2026-W47."""
     annee, semaine, _ = date.today().isocalendar()
-    return f"{annee}-W{semaine:02d}.json"
+    return f"{annee}-W{semaine:02d}"
+
+
+def _fichier_semaine():
+    """Nom du fichier de la semaine en cours, par exemple 2026-W47.json."""
+    return f"{_id_semaine()}.json"
 
 
 def get_past_artists():
+    """Noms (en minuscules) des artistes présentés les semaines précédentes."""
     deja_vus = set()
     for chemin in CONTENT_DIR.glob("*.json"):
         if chemin.name.lower() == _fichier_semaine().lower():
             continue  # la semaine en cours n'est pas exclue d'elle-même
         with open(chemin, encoding="utf-8") as f:
-            deja_vus.add(json.load(f)["nom"].lower())
+            data = json.load(f)
+        # ancien format : une seule fiche ; nouveau format : une liste "decouvertes"
+        for fiche in data.get("decouvertes", [data]):
+            deja_vus.add(fiche["nom"].lower())
     return deja_vus
 
 
-def save_fiche(fiche):
-    """Enregistre la fiche dans content/ sous le nom AAAA-Wss.json."""
+def save_week(semaine):
+    """Enregistre la semaine dans content/ sous le nom AAAA-Wss.json."""
     CONTENT_DIR.mkdir(exist_ok=True)
     chemin = CONTENT_DIR / _fichier_semaine()
     with open(chemin, "w", encoding="utf-8") as f:
-        json.dump(fiche, f, ensure_ascii=False, indent=2)
+        json.dump(semaine, f, ensure_ascii=False, indent=2)
     return chemin
 
 
 if __name__ == "__main__":
     candidats = get_candidates()
-    nom, score, favoris = pick_artist_of_the_week(candidats, exclus=get_past_artists())
-    fiche = build_fiche(nom, favoris)
-    print("Fiche enregistrée :", save_fiche(fiche))
+    choisis = pick_artists_of_the_week(candidats, exclus=get_past_artists())
+    fiches = [build_fiche(nom, favoris) for nom, score, favoris in choisis]
+    semaine = {
+        "semaine": _id_semaine(),
+        "date": date.today().isoformat(),
+        "decouvertes": fiches,
+    }
+    print("Semaine enregistrée :", save_week(semaine))

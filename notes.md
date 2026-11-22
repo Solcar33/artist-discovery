@@ -149,3 +149,10 @@
 - **Commande ou code clé :** `favoris_utilises & set(candidat[2])`
 - **Ce que j'ai appris :** & donne l'intersection de deux ensembles, |= ajoute à un ensemble. shuffle avec une graine reste reproductible. Une deuxième boucle sert de filet de sécurité si les contraintes sont trop strictes.
 - **Question restante :** Comment obtenir un album pour chaque artiste avec Last.fm ?
+
+### 2026-11-22 Étape 5.2 Un fichier par semaine avec trois fiches et un album
+- **Ce que j'ai fait :** Ajouté get_top_album dans lastfm.py. fiche.py produit maintenant un fichier par semaine avec une liste de trois fiches, chacune avec son album. get_past_artists lit l'ancien et le nouveau format.
+- **Pourquoi :** Trois découvertes par semaines rendent le blog plus riche. L'album donne un point d'entrée dans la musique de l'artiste. Garder la compatibilité avec l'ancien format évite de casser les semaines déjà publiées.
+- **Commande ou code clé :** `data.get("decouverte", [data])`
+- **Ce que j'ai appris :** Un changement de format de données doit rester lisible pour l'ancien. get avec une valeur par défaut gère les cas abseb=nts. Une compréhension de liste peut déballer des trios. Un album Last.fm peut être vide (null), il faut le filtrer.
+- **Question restante :** Comment adapter les pages du site à une semaine contenant trois artistes ?

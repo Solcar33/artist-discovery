@@ -45,6 +45,19 @@ def get_artist_info(artiste):
     }
 
 
+def get_top_album(artiste):
+    """Retourne l'album le plus écouté d'un artiste selon Last.fm, ou None."""
+    data = _appeler("artist.gettopalbums", artist=artiste, limit=5, autocorrect=1)
+    for album in data["topalbums"]["album"]:
+        if album["name"] and album["name"] != "(null)":
+            return {
+                "nom": album["name"],
+                "url": album["url"],
+                "ecoutes": int(album["playcount"]),
+            }
+    return None
+
+
 if __name__ == "__main__":
     info = get_artist_info("Massive Attack")
     print(info["nom"], info["auditeurs"], info["ecoutes"])
