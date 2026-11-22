@@ -86,3 +86,10 @@
 - **Commande ou code clé :** `_appeler("artist.getinfo", artist=artiste, autocorrect=1)`
 - **Ce que j'ai appris :** **params collect les paramètres nommés, ** les déverse dans un dictionnaire. dict.get évite une KeyError si la clé manque. Après un refactoring, je relance recommand.py pour vérifier que le résultat n'a pas changé. Les auditeurs Last.fm ne sont que les auditeurss mensuel de Spotify.
 - **Question restante :** Comment nettoyer le HTML de la bio ?
+
+### 2026-11-22 Étape 3.2 Liens et réseaux sociaux avec MusicBrainz
+- **Ce que j'ai fait :** Créé  src/musicbrainz.py avec find_artist (recherche par nom) et get_artist_links (liens regroupés par type) Ajouté une reprise automatique quand le server répond 503
+- **Pourquoi :** La fiche doit contenir les liens de l'artiste (écoute, sites, bases de données). MusicBrainz les liste sans clé API, mais impose un User-Agent et une limite de 1 requête par seconde.
+- **Commande ou code clé :** `requests.get(url, params=params, headers=HEADERS, timeout=10)`
+- **Ce que j'ai appris :** Un 503 vient du servcer, pas de mon code. Le backoff exponentiel double l'attente à chaque échec. Les clés d'une API se copient exactement : resource et  pas ressource, artists et pas artist. La recherche renvoie le meilleur résultat : je vérifie le nom et le score. Une source peut être incomplète, donc la page affichera seulement les liens trouvés.
+- **Question restante :** Comment éviter de se tromper d'artiste en cas d'homonyme ?
