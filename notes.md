@@ -177,3 +177,10 @@
 - **Commande ou code clé :** `git diff --cached --quiet || git commit -m "chore..."`
 - **Ce que j'ai appris :** cron s'est écrit en UTC. Un workflow reçoit les secrets par des variables d'environnement. L'indentation du YAML compte. Un commit de robit ne se fait que s'il y a des changements.
 - **Question restante :** Comment publier le site (GitHub Pages) et être prévenu ?
+
+### 2026-11-22 Étape 5.6 Publication avec GitHub Pages
+- **Ce que j'ai fait :** Protéger mon adresse e-mail dans les commits (adresse noreply), rendu le dépot public et activé GitHub Pages sur la branche master, dossier docs.
+- **Pourquoi :** Le blog doit être accessible par une adresse web. Pages est gratuit pour un dépoôt public. Mes secrets et mes fichiers Spotify restent privés.
+- **Commande ou code clé :** `git config --global user.email "ID+Solcar33@users.noreply.github.com"`
+- **Ce que j'ai appris :** Chaque commit contient l'adresse e-mail de son auteur, visible dans un dépôt public. Les chemins relatifs permettent au site de fonctionner dans un sous-dossier. Un guillemet non fermé laisse le terminal en attente (prompt >) Un push de robot ne déclenche pas toujours Pages.
+- **Question restante :** Le site se met-il à jour tout seul après le commit du robot ?
