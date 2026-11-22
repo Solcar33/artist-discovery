@@ -114,3 +114,10 @@
 - **Commande ou code clé :** `[c for candidats if C[0].lower() not in exclus]`
 - **Ce que j'ai appris :** glob liste les fichiers d'un dossier, continue saute un tour de boucle. Une fonction utilitaire évite de dupliquer le nom de fichier. Tester avec un faux fichier de la semaine précédente, puis le supprimer.
 - **Question restante :** Comment mon programme saura-t-il quels artistes ont déjà été publiés quand il tournera sur GitHub Actions ?
+
+### 2026-11-22 Étape 4.1 Première page avec Jinja2
+- **Ce que j'ai fait :** Intallé Jinja2, créé teplates/artist.html et src/build_site.py qui génère doncs/semaine/<semaine>.html à partir d'une fiche JSON.
+- **Pourquoi :** Un site statique est simple et gratuit à publier. Le modèle sépare la présentation (HTML) des données (JSON). Le dossier docs/ sera publié par GitHub Pages.
+- **Commande ou code clé :** `env.get_template("artist.html").render(fiche=fiche)`
+- **Ce que j'ai appris :** Jinja2 rempli les trous {{ }} d'un modèle avec des données. L'autoescape protège contre les caractères spéciaux. Path.stem donne le nom sans execution.
+- **Question restante :** Comment afficher les liens d'écoute et les genres dans la page ?

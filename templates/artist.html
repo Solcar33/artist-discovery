@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ fiche.nom }} · Artist Discovery</title>
+</head>
+<body>
+    <H1>{{ fiche.nom }}</H1>
+    <p>Découverte de la semaine du {{ fiche.date }}</p>
+    <p>Parce que tu écoute {{ fiche.favoris | join(", ") }}</p>
+    
+</body>
+</html>
